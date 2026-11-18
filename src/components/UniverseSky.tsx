@@ -55,7 +55,7 @@ export function UniverseSky({ approvedCount }: { approvedCount: number }) {
   return (
     <>
       <div className="universe__sky">
-        <span className="stars" aria-hidden />
+        <span className="clouds" aria-hidden />
         <Fireworks className="reveal__fireworks" every={3.4} />
         {approvedCount === 0 ? (
           <div className="universe__empty">

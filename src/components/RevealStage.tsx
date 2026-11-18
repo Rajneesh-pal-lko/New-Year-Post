@@ -82,8 +82,7 @@ export function RevealStage({ recipientName, senderName, message, demo = false, 
   return (
     <div className={`reveal reveal--${stage}`}>
       <div className="reveal__sky">
-        <span className="reveal__moon" aria-hidden />
-        <span className="stars" aria-hidden />
+        <span className="clouds" aria-hidden />
         <Fireworks className="reveal__fireworks" auto={false} volley={volley} />
 
         {stage === "idle" && (

@@ -257,7 +257,7 @@ export function SendFlow({ packages, salesState, deliveryDateLabel, priceNote, c
       description: `${size} New Year ${size === 1 ? "pigeon" : "pigeons"}`,
       prefill: { name: sender.name, email: sender.email },
       notes: { order_ref: orderForCheckout.orderRef },
-      theme: { color: "#C42B2B" },
+      theme: { color: "#D90B74" },
       timeout: orderForCheckout.checkoutTimeoutSeconds,
       modal: {
         confirm_close: true,

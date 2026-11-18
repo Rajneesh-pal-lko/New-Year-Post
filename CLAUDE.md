@@ -50,8 +50,8 @@ cd supabase/functions/deliver && deno check index.ts   # type-check the Edge Fun
 - Pages that depend on the clock or the DB: `export const dynamic = "force-dynamic"`.
 - Code shared by Node and Deno lives in `supabase/functions/_shared/`. It must use only Web APIs and have no npm imports. Imports between shared files use explicit `.ts` extensions. Next imports it via `@shared/*`.
 - The Edge Function imports `npm:@supabase/supabase-js@2`.
-- Styling: plain CSS in `src/app/globals.css` with the tokens at the top ("Midnight on the rooftop": violet-midnight, champagne gold, sparkler rose, marigold, cream letter paper). Fonts: Bodoni Moda (display; keep `opsz` around 11 to 16 for headings and prices so hairlines stay legible), Pinyon Script (greetings only), Mukta (UI, includes Devanagari), Kalam (letters, includes Devanagari).
-- Festive motion lives in `Fireworks`, `Confetti`, `Decorations` and `Countdown`. All of them must keep respecting `prefers-reduced-motion`, and the countdown must keep starting from server time.
+- Styling: plain CSS in `src/app/globals.css` with the tokens at the top ("Dak Mela", a festival of postage: rani pink, marigold, peacock blue, sky, tota green, orange, ink on white paper). White text only on pink or peacock; everything else uses ink. Paper surfaces use the ink outline and solid offset shadow (`--line`, `--lift`). Fonts: Baloo 2 (display, includes Devanagari), Mukta (UI, includes Devanagari), Kalam (letters, includes Devanagari).
+- Festive motion lives in `Fireworks`, `Confetti` and `Countdown`, plus the hero's stamp-and-pigeon landing in CSS; `Decorations` (bunting) is static. All of them must keep respecting `prefers-reduced-motion`, and the countdown must keep starting from server time.
 - UI copy: sentence case, plain verbs, no "→" or middle-dot separators. The brief's CTAs are exact: "Send Your First Pigeon", "Explore the Pigeon Universe", "Apply this delivery time to all pigeons".
 
 ## When you change…

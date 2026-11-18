@@ -1,25 +1,21 @@
-// Indian New Year's Eve decorations, drawn in code: a string of fairy lights
-// and a marigold garland, each hung in gentle swags.
+// Festive decoration drawn in code: a string of paper bunting (jhandi), the
+// triangle flags strung across Indian streets and rooftops for every festival.
+// Static on purpose; the hero's one moving moment is the pigeon landing.
 
-const BULB_COLORS = ["#F3C969", "#FF7AA8", "#FF9F1C", "#FFF3D6"];
+const FLAG_COLORS = ["#FFB627", "#FFFFFF", "#A9DBFF", "#19B36B", "#FF6B2C"];
 
 /** y offset (0..1) of a hanging swag at position t (0..1) within one swag */
 const sag = (t: number) => Math.sin(Math.PI * t);
 
-export function FairyLights({ swags = 3, bulbsPerSwag = 9, depth = 26 }: { swags?: number; bulbsPerSwag?: number; depth?: number }) {
-  const bulbs: { x: number; y: number; color: string; delay: number }[] = [];
-  const total = swags * bulbsPerSwag;
-  for (let i = 0; i < total; i++) {
-    const swag = Math.floor(i / bulbsPerSwag);
-    const t = ((i % bulbsPerSwag) + 0.5) / bulbsPerSwag;
-    bulbs.push({
-      x: ((swag + t) / swags) * 100,
-      y: sag(t) * depth,
-      color: BULB_COLORS[i % BULB_COLORS.length],
-      delay: (i * 0.37) % 2.4,
-    });
-  }
-  // The wire, drawn as a path in a 0..100 x 0..depth box.
+export function Bunting({ swags = 2, flagsPerSwag = 11, depth = 14 }: { swags?: number; flagsPerSwag?: number; depth?: number }) {
+  const total = swags * flagsPerSwag;
+  const flags = Array.from({ length: total }, (_, i) => {
+    const swag = Math.floor(i / flagsPerSwag);
+    const t = ((i % flagsPerSwag) + 0.5) / flagsPerSwag;
+    return { x: ((swag + t) / swags) * 100, y: sag(t) * depth, color: FLAG_COLORS[i % FLAG_COLORS.length] };
+  });
+
+  // The string, drawn as a path in a 0..100 x 0..depth box.
   const steps = swags * 20;
   const d = Array.from({ length: steps + 1 }, (_, i) => {
     const pos = i / steps;
@@ -28,35 +24,15 @@ export function FairyLights({ swags = 3, bulbsPerSwag = 9, depth = 26 }: { swags
   }).join(" ");
 
   return (
-    <div className="lights" style={{ height: `${depth + 18}px` }} aria-hidden>
-      <svg className="lights__wire" viewBox={`0 -2 100 ${depth + 4}`} preserveAspectRatio="none">
+    <div className="bunting" style={{ height: `${depth + 26}px` }} aria-hidden>
+      <svg className="bunting__string" viewBox={`0 -2 100 ${depth + 4}`} preserveAspectRatio="none">
         <path d={d} vectorEffect="non-scaling-stroke" />
       </svg>
-      {bulbs.map((b, i) => (
+      {flags.map((f, i) => (
         <span
           key={i}
-          className="lights__bulb"
-          style={{ left: `${b.x}%`, top: `${b.y + 3}px`, color: b.color, animationDelay: `${b.delay}s` }}
-        />
-      ))}
-    </div>
-  );
-}
-
-export function MarigoldGarland({ swags = 4, flowersPerSwag = 11, depth = 22 }: { swags?: number; flowersPerSwag?: number; depth?: number }) {
-  const flowers: { x: number; y: number; tone: number; size: number }[] = [];
-  for (let i = 0; i < swags * flowersPerSwag; i++) {
-    const swag = Math.floor(i / flowersPerSwag);
-    const t = ((i % flowersPerSwag) + 0.5) / flowersPerSwag;
-    flowers.push({ x: ((swag + t) / swags) * 100, y: sag(t) * depth, tone: i % 3, size: i % 4 === 0 ? 1.15 : 1 });
-  }
-  return (
-    <div className="garland" style={{ height: `${depth + 26}px` }} aria-hidden>
-      {flowers.map((f, i) => (
-        <span
-          key={i}
-          className={`garland__flower garland__flower--${f.tone}`}
-          style={{ left: `${f.x}%`, top: `${f.y}px`, transform: `translateX(-50%) scale(${f.size})` }}
+          className="bunting__flag"
+          style={{ left: `${f.x}%`, top: `${f.y + 2}px`, background: f.color, width: `calc(${100 / total}% - 3px)` }}
         />
       ))}
     </div>

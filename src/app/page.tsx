@@ -2,8 +2,7 @@ import Link from "next/link";
 import { formatRupees } from "@shared/money";
 import { SLOTS, slotToUtc } from "@shared/slots";
 import { Countdown } from "@/components/Countdown";
-import { FairyLights, MarigoldGarland } from "@/components/Decorations";
-import { Fireworks } from "@/components/Fireworks";
+import { Bunting } from "@/components/Decorations";
 import { Pigeon } from "@/components/Pigeon";
 import { PriceNote } from "@/components/PriceNote";
 import { PriceStamps } from "@/components/PriceStamps";
@@ -21,6 +20,14 @@ const EXAMPLE = {
   message:
     "Happy New Year, Didi!\n\nThank you for every late-night chai and for always picking up when I call. 2027 is going to be a good one. I can feel it.\n\nSee you at Holi?",
 };
+
+// The 48 delivery slots, shown as four six-hour rows of twelve.
+const DAY_PARTS = [
+  { key: "night", label: "Midnight to 6 AM" },
+  { key: "morning", label: "6 AM to noon" },
+  { key: "afternoon", label: "Noon to 6 PM" },
+  { key: "evening", label: "6 PM to midnight" },
+];
 
 const FAQ: { q: string; a: React.ReactNode }[] = [
   {
@@ -61,15 +68,18 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="hero">
-        <FairyLights />
+      <section className="hero band band--pink">
+        <Bunting />
         <SiteHeader />
-        <Fireworks className="hero__fireworks" every={2.4} />
         <div className="hero__inner">
           <div className="lockup">
-            <p className="lockup__script">Happy New Year</p>
-            <p className="lockup__year">
-              <span className="foil">2027</span>
+            <p className="lockup__greeting">Happy New Year</p>
+            <p className="lockup__year" aria-label="2027">
+              {["2", "0", "2", "7"].map((digit, i) => (
+                <span key={i} className={`year-stamp year-stamp--${i + 1}`} aria-hidden>
+                  <span>{digit}</span>
+                </span>
+              ))}
               <Pigeon pose="fly" className="lockup__flyer" />
               <Pigeon pose="perch" className="lockup__percher" />
             </p>
@@ -100,13 +110,12 @@ export default function HomePage() {
           </p>
           <Countdown serverNowMs={at.getTime()} targetMs={midnight.getTime()} label="midnight, 1 January 2027 (IST)" />
         </div>
-        <MarigoldGarland />
       </section>
 
       <main>
-        <section className="section" aria-labelledby="how">
-          <div className="section__inner">
-            <h2 id="how" className="section__title">
+        <section className="band band--marigold" aria-labelledby="how">
+          <div className="band__inner">
+            <h2 id="how" className="band__title">
               How it works
             </h2>
             <ol className="steps">
@@ -130,13 +139,13 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section section--glow" aria-labelledby="example">
-          <div className="section__inner section__inner--split">
+        <section className="band band--sky" aria-labelledby="example">
+          <div className="band__inner band__inner--split">
             <div>
-              <h2 id="example" className="section__title">
+              <h2 id="example" className="band__title">
                 See a pigeon land
               </h2>
-              <p className="section__text">
+              <p className="band__text">
                 This is what your recipient sees when they open the email: a pigeon, an envelope, and a little celebration. The
                 letter is an example we wrote to show the experience.
               </p>
@@ -147,16 +156,16 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section" id="prices" aria-labelledby="pricing">
-          <div className="section__inner">
-            <h2 id="pricing" className="section__title">
+        <section className="band band--blush" id="prices" aria-labelledby="pricing">
+          <div className="band__inner">
+            <h2 id="pricing" className="band__title">
               Pigeon bundles
             </h2>
             <PriceStamps packages={view.packages} />
             <PriceNote view={view} />
             {view.state !== "CLOSED" && (
               <p>
-                <Link href="/send" className="button button--gold">
+                <Link href="/send" className="button button--primary">
                   Send Your First Pigeon
                 </Link>
               </p>
@@ -164,10 +173,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section section--glow" aria-labelledby="when">
-          <div className="section__inner section__inner--split">
+        <section className="band band--peacock" aria-labelledby="when">
+          <div className="band__inner band__inner--split">
             <div>
-              <h2 id="when" className="section__title">
+              <h2 id="when" className="band__title">
                 When your pigeons land
               </h2>
               <div className="prose">
@@ -182,23 +191,24 @@ export default function HomePage() {
               </div>
             </div>
             <figure className="day-strip" aria-label="48 half-hour delivery slots on 1 January 2027">
-              <div className="day-strip__dots" aria-hidden>
-                {SLOTS.map((s) => (
-                  <span key={s} className={s === "00:00" ? "is-midnight" : s.endsWith(":00") ? "is-hour" : undefined} />
-                ))}
-              </div>
-              <figcaption>
-                <span>12:00 AM</span>
-                <span>48 half-hour slots on 1 January</span>
-                <span>11:30 PM</span>
-              </figcaption>
+              {DAY_PARTS.map((part, row) => (
+                <div className={`day-strip__row day-strip__row--${part.key}`} key={part.key}>
+                  <span className="day-strip__label">{part.label}</span>
+                  <span className="day-strip__dots" aria-hidden>
+                    {SLOTS.slice(row * 12, row * 12 + 12).map((s) => (
+                      <span key={s} className={s === "00:00" ? "is-midnight" : s.endsWith(":00") ? "is-hour" : undefined} />
+                    ))}
+                  </span>
+                </div>
+              ))}
+              <figcaption>Each dot is a half-hour slot. Big dots are on the hour.</figcaption>
             </figure>
           </div>
         </section>
 
-        <section className="section" aria-labelledby="faq">
-          <div className="section__inner">
-            <h2 id="faq" className="section__title">
+        <section className="band band--paper" aria-labelledby="faq">
+          <div className="band__inner">
+            <h2 id="faq" className="band__title">
               Questions
             </h2>
             <div className="faq">
@@ -212,36 +222,37 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section section--glow" aria-labelledby="privacy">
-          <div className="section__inner section__inner--split">
-            <h2 id="privacy" className="section__title">
+        <section className="band band--green" aria-labelledby="privacy">
+          <div className="band__inner">
+            <h2 id="privacy" className="band__title">
               Your letters are private
             </h2>
-            <div>
-              <ul className="trust">
-                <li>
-                  <strong>Payments by Razorpay.</strong> We never see or store card or UPI details.
-                </li>
-                <li>
-                  <strong>No accounts.</strong> We ask only for names, email addresses and your letters.
-                </li>
-                <li>
-                  <strong>Private links.</strong> Each letter opens only through its own long, unguessable link.
-                </li>
-                <li>
-                  <strong>Nothing public without consent.</strong> A letter goes public only if you allow it, the recipient
-                  chooses it, and we review it. Email addresses are never published.
-                </li>
-              </ul>
-              <p className="section__text">
-                Read the <Link href="/privacy">privacy policy</Link> or <Link href="/contact">contact us</Link>.
-              </p>
-            </div>
+            <ul className="trust">
+              <li>
+                <strong>Payments by Razorpay</strong>
+                We never see or store card or UPI details.
+              </li>
+              <li>
+                <strong>No accounts</strong>
+                We ask only for names, email addresses and your letters.
+              </li>
+              <li>
+                <strong>Private links</strong>
+                Each letter opens only through its own long, unguessable link.
+              </li>
+              <li>
+                <strong>Nothing public without consent</strong>A letter goes public only if you allow it, the recipient chooses
+                it, and we review it. Email addresses are never published.
+              </li>
+            </ul>
+            <p className="band__text">
+              Read the <Link href="/privacy">privacy policy</Link> or <Link href="/contact">contact us</Link>.
+            </p>
           </div>
         </section>
 
         {view.state !== "CLOSED" && (
-          <section className="finale" aria-labelledby="finale">
+          <section className="band band--pink finale" aria-labelledby="finale">
             <Pigeon pose="fly" className="finale__pigeon" />
             <h2 id="finale">Who should hear from you first in 2027?</h2>
             <p>Write them a letter tonight. A pigeon will deliver it on New Year&rsquo;s Day, at the time you choose.</p>

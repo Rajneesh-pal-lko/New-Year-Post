@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/bodoni-moda/opsz.css";
-import "@fontsource-variable/bodoni-moda/opsz-italic.css";
-import "@fontsource/pinyon-script/400.css";
+import "@fontsource-variable/baloo-2/wght.css";
 import "@fontsource/mukta/400.css";
 import "@fontsource/mukta/600.css";
 import "@fontsource/mukta/700.css";
@@ -24,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#17123F",
+  themeColor: "#D90B74",
   width: "device-width",
   initialScale: 1,
 };

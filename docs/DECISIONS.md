@@ -119,33 +119,34 @@ The message is copied into `universe_releases`, so private data can be deleted l
 
 "Catch a pigeon" (Q13 default): tap a flying pigeon to get a random approved letter. No collection state.
 
-## 8. Design direction: "Midnight on the rooftop"
+## 8. Design direction: "Dak Mela", a festival of postage
 
-The owner asked for the site to feel like a celebration, not a business. The design draws on how New Year's Eve looks in India:
-- dark midnight skies against bursts of gold;
-- fireworks, the clock striking midnight, and confetti;
-- fairy lights, marigold garlands, and diyas or sparklers at midnight.
+The first design ("Midnight on the rooftop": violet night, champagne gold, Bodoni) was replaced on 18 Nov 2026 because the owner wanted the site bright and colourful. The new direction keeps the celebration but moves it into daylight and Indian festival colour, and leans on the product's own subject, the post:
+- full-width bands of festival colour joined by scalloped paper edges;
+- postage stamps: the prices are stamp denominations, and "2027" is printed on four stamps that the pigeon lands on;
+- paper bunting (jhandi) strung across the top of the hero;
+- letters written on blue-ruled school-notebook paper with a pink margin line, under an airmail stripe.
 
-**Palette:**
-- violet-midnight `#17123F`
-- champagne gold `#F3C969`, used as a foil gradient
-- sparkler rose `#FF7AA8`
-- marigold `#FF9F1C`
-- cream letter paper `#FFF7E8` with ink `#2B2160`
+**Palette** (tokens at the top of `globals.css`):
+- rani pink `#D90B74` (hero, primary buttons, recommended bundle)
+- marigold `#FFB627` (main call to action, highlights)
+- peacock blue `#0A6BD6` and sky `#A9DBFF` (delivery-day band, skies, the Universe)
+- tota green `#19B36B` and orange `#FF6B2C` (stamps, steps, statuses)
+- ink `#24124D` on white paper
 
-Anything people write on (forms, letters, tickets, policy pages) sits on cream paper with a rose-and-gold stripe along the top.
+White text sits only on rani pink and peacock (both above 4.9:1). Everything else carries ink. Paper things (cards, stamps, buttons, letters) are printed in ink: a 2.5px outline and a solid offset shadow, like a rubber-stamped sticker. Gradients are not used as decoration.
 
 **Type:**
-- **Bodoni Moda:** the Didone of New Year invitations. Its optical-size axis is kept low (11–16) for headings and prices, because high-contrast hairlines made "₹49" read as "₹ 19" on phones.
-- **Pinyon Script:** only for greetings ("Happy New Year", "Hooray!").
+- **Baloo 2:** display. Rounded, warm and bold, made by an Indian foundry, with Devanagari.
 - **Mukta:** UI text, with Devanagari.
 - **Kalam:** handwritten letters, with Devanagari.
 
 **Celebration moments:**
-- The hero has a string of fairy lights and a slow gold and rose fireworks canvas you can tap to launch a firework. A pigeon flies in and perches on a gold-foil "2027", and a marigold garland closes the hero.
+- One orchestrated moment in the hero: the four year stamps are stamped down one after another, then a pigeon flies in and perches on the 7. The bunting is static.
 - A **real** countdown to midnight, 1 January 2027 IST. It starts from server time and counts towards the New Year, not a sale deadline, so it isn't fake urgency.
-- The reveal fires a volley when the pigeon lands and throws confetti when the letter opens.
+- The reveal fires a volley of fireworks when the pigeon lands on the rooftop and throws confetti when the letter opens.
 - The booked-order page throws confetti once.
+- The delivery-day chart colours its 48 slots by part of the day (night, morning, afternoon, evening).
 
 **Accessibility and performance:**
 - All motion stops under `prefers-reduced-motion`.

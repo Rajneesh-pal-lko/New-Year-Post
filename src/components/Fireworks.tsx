@@ -2,19 +2,19 @@
 
 import { useEffect, useRef } from "react";
 
-// A small hand-rolled fireworks canvas (no library). Gold, rose and marigold
-// bursts with short trails. Tapping the sky launches a burst where you tap.
+// A small hand-rolled fireworks canvas (no library). Bright marigold, rani
+// pink, parrot green and sky bursts with short trails. Tapping the sky launches a burst where you tap.
 //
 // Performance: one canvas, capped particle count, device-pixel-ratio capped at
 // 2, and the loop stops whenever nothing is moving or the canvas is off-screen.
 // With prefers-reduced-motion nothing animates.
 
 const PALETTES = [
-  ["#F3C969", "#FFE29A", "#FFF3D6"], // champagne gold
-  ["#FF7AA8", "#FFB3CD", "#FFF3D6"], // sparkler rose
-  ["#FF9F1C", "#FFC46B", "#FFE29A"], // marigold
-  ["#F3C969", "#FF7AA8", "#FFF3D6"], // mixed
-  ["#8FE9DC", "#FFF3D6", "#F3C969"], // a rare cool one
+  ["#FFD23F", "#FFF0A8", "#FFFFFF"], // marigold
+  ["#FF3E9E", "#FFB3D9", "#FFFFFF"], // rani pink
+  ["#3DDC97", "#C2F7DD", "#FFFFFF"], // parrot green
+  ["#FF7A2F", "#FFC08F", "#FFF0A8"], // orange
+  ["#FFD23F", "#FF3E9E", "#3DDC97"], // mixed
 ];
 
 interface Particle {
@@ -129,7 +129,7 @@ export function Fireworks({ className = "", auto = true, every = 2.2, volley = 0
         const prevY = r.y;
         r.y += r.vy;
         r.vy *= 0.985;
-        ctx!.strokeStyle = "rgba(255, 233, 176, 0.85)";
+        ctx!.strokeStyle = "rgba(255, 255, 255, 0.9)";
         ctx!.lineWidth = 1.6;
         ctx!.beginPath();
         ctx!.moveTo(r.x, prevY + 10);

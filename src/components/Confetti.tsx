@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 // Used when a payment is confirmed and when a letter is opened.
 // `onceKey` stops it repeating on refresh (sessionStorage). Respects reduced motion.
 
-const COLORS = ["#F3C969", "#FFE29A", "#FF7AA8", "#FF9F1C", "#FFF7E8", "#8FE9DC"];
+const COLORS = ["#D90B74", "#FFB627", "#0A6BD6", "#19B36B", "#FF6B2C", "#A9DBFF"];
 
 interface Piece {
   x: number;
