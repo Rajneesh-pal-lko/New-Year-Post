@@ -1,0 +1,37 @@
+{
+  "name": "pigeon-post-2027",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pigeon Post 2027: send a virtual pigeon with a New Year message, delivered by email on 1 Jan 2027 (IST).",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:db": "vitest run tests/db.test.ts"
+  },
+  "dependencies": {
+    "@fontsource/kalam": "^5.3.0",
+    "@fontsource/mukta": "^5.3.0",
+    "@fontsource/young-serif": "^5.3.0",
+    "@supabase/supabase-js": "^2.119.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/pg": "^8.15.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "pg": "^8.16.0",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}
