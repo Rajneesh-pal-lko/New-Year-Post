@@ -1,0 +1,8 @@
+# Supabase CLI project config (only the parts this project relies on).
+# Run `supabase init` if you want the full local-dev config generated.
+
+[functions.deliver]
+# The function is called by Supabase Cron with our own `x-cron-secret` header,
+# not a user JWT, so Supabase's JWT check is turned off for it. The function
+# rejects any request without the correct secret.
+verify_jwt = false
