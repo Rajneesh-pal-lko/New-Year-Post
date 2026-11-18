@@ -29,19 +29,20 @@ export interface RenderedEmail {
   text: string;
 }
 
-const INK = "#1E2B4F";
-const RED = "#C42B2B";
-const PAPER = "#EAF0F6";
+const INK = "#2B2160";
+const GOLD = "#F3C969";
+const NIGHT = "#17123F";
+const PAPER = "#FFF7E8";
 
 function layout(inner: string, preheader: string): string {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pigeon Post 2027</title></head>
-<body style="margin:0;padding:0;background:${PAPER};">
+<body style="margin:0;padding:0;background:${NIGHT};">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapeHtml(preheader)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER};padding:24px 12px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${NIGHT};padding:24px 12px;">
 <tr><td align="center">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border-radius:6px;border-top:6px solid ${RED};">
-<tr><td style="padding:28px 28px 8px 28px;font-family:Georgia,'Times New Roman',serif;color:${INK};font-size:20px;">Pigeon Post 2027</td></tr>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:${PAPER};border-radius:12px;border-top:6px solid ${GOLD};">
+<tr><td style="padding:28px 28px 8px 28px;font-family:Didot,'Bodoni 72',Georgia,serif;font-style:italic;color:${INK};font-size:22px;">Pigeon Post <span style="font-style:normal;color:#C9952F;">2027</span></td></tr>
 <tr><td style="padding:8px 28px 28px 28px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:${INK};font-size:16px;line-height:1.55;">
 ${inner}
 </td></tr>
@@ -52,7 +53,7 @@ ${inner}
 }
 
 function button(href: string, label: string): string {
-  return `<p style="margin:24px 0;"><a href="${escapeHtml(href)}" style="display:inline-block;background:${RED};color:#ffffff;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:999px;">${escapeHtml(label)}</a></p>`;
+  return `<p style="margin:24px 0;"><a href="${escapeHtml(href)}" style="display:inline-block;background:${GOLD};color:#2B1D05;text-decoration:none;font-weight:700;padding:13px 24px;border-radius:12px;">${escapeHtml(label)}</a></p>`;
 }
 
 export function recipientPigeonEmail(input: {
@@ -67,8 +68,8 @@ export function recipientPigeonEmail(input: {
     `<p style="margin:0 0 12px 0;">Hi ${escapeHtml(recipient)},</p>
 <p style="margin:0 0 12px 0;">A pigeon from <strong>${escapeHtml(sender)}</strong> has just landed with a New Year message for you.</p>
 ${button(input.link, "Open your pigeon")}
-<p style="margin:0 0 12px 0;font-size:14px;color:#4A5675;">If the button doesn't work, copy this link into your browser:<br><span style="word-break:break-all;">${escapeHtml(input.link)}</span></p>
-<p style="margin:20px 0 0 0;font-size:13px;color:#4A5675;">This link is private to you. Pigeon Post 2027 delivers New Year messages that people write for each other. If this message is unwelcome, reply to this email and we'll look into it.</p>`,
+<p style="margin:0 0 12px 0;font-size:14px;color:#6A6290;">If the button doesn't work, copy this link into your browser:<br><span style="word-break:break-all;">${escapeHtml(input.link)}</span></p>
+<p style="margin:20px 0 0 0;font-size:13px;color:#6A6290;">This link is private to you. Pigeon Post 2027 delivers New Year messages that people write for each other. If this message is unwelcome, reply to this email and we'll look into it.</p>`,
     "It's carrying a personal message for you.",
   );
   const text = `Hi ${recipient},
@@ -98,17 +99,17 @@ export function orderConfirmationEmail(input: {
   const rows = input.pigeons
     .map(
       (p) =>
-        `<tr><td style="padding:6px 0;border-bottom:1px solid #E1E7EF;">${escapeHtml(oneLine(p.recipientName, 40))}</td><td style="padding:6px 0;border-bottom:1px solid #E1E7EF;text-align:right;white-space:nowrap;">${escapeHtml(slotLabel(p.slot))} IST</td></tr>`,
+        `<tr><td style="padding:6px 0;border-bottom:1px solid #ECD9AD;">${escapeHtml(oneLine(p.recipientName, 40))}</td><td style="padding:6px 0;border-bottom:1px solid #ECD9AD;text-align:right;white-space:nowrap;">${escapeHtml(slotLabel(p.slot))} IST</td></tr>`,
     )
     .join("");
 
   const html = layout(
     `<p style="margin:0 0 12px 0;">Hi ${escapeHtml(sender)},</p>
 <p style="margin:0 0 12px 0;">Payment received. Your ${noun} booked to land on <strong>${escapeHtml(date)}</strong>.</p>
-<p style="margin:0 0 4px 0;font-size:14px;color:#4A5675;">Order ${escapeHtml(input.orderRef)}, paid ₹${escapeHtml(input.amountRupees)}</p>
+<p style="margin:0 0 4px 0;font-size:14px;color:#6A6290;">Order ${escapeHtml(input.orderRef)}, paid ₹${escapeHtml(input.amountRupees)}</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:12px 0;font-size:15px;">${rows}</table>
 ${button(input.orderLink, "View your order")}
-<p style="margin:0 0 12px 0;font-size:14px;color:#4A5675;">Keep this email. The button is your private link to check each pigeon's status and share its page on WhatsApp. Anyone with the link can see your order, so don't forward it.</p>`,
+<p style="margin:0 0 12px 0;font-size:14px;color:#6A6290;">Keep this email. The button is your private link to check each pigeon's status and share its page on WhatsApp. Anyone with the link can see your order, so don't forward it.</p>`,
     `Your ${noun} booked for ${date}.`,
   );
 
@@ -131,7 +132,7 @@ export function alertDigestEmail(alerts: { kind: string; message: string; create
   const text = alerts.map((a) => `${a.created_at}  ${a.kind}\n  ${a.message}`).join("\n\n");
   const html = layout(
     `<p style="margin:0 0 12px 0;">${alerts.length} new alert${alerts.length === 1 ? "" : "s"}. Details are on the admin page.</p>
-<pre style="white-space:pre-wrap;font-size:13px;background:#F4F6FA;padding:12px;border-radius:4px;">${escapeHtml(text)}</pre>`,
+<pre style="white-space:pre-wrap;font-size:13px;background:#FBEFD6;padding:12px;border-radius:4px;">${escapeHtml(text)}</pre>`,
     `${alerts.length} new alert(s)`,
   );
   return { subject, html, text };

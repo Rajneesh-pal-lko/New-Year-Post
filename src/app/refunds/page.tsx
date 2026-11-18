@@ -12,7 +12,7 @@ export default function RefundsPage() {
   return (
     <>
       <SiteHeader />
-      <main className="page">
+      <main className="page sheet">
         <h1>Cancellations and refunds</h1>
         <p className="lede">
           Last updated: {business.policiesUpdated ?? <Placeholder>date</Placeholder>}

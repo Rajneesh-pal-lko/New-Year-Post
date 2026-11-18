@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { formatRupees } from "@shared/money";
 import { formatIstDate, slotLabel } from "@shared/slots";
 import { AutoRefresh } from "@/components/AutoRefresh";
+import { Confetti } from "@/components/Confetti";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { formatIst } from "@/lib/campaign";
 import { db } from "@/lib/db";
@@ -38,18 +39,20 @@ export default async function OrderPage({ params, searchParams }: Props) {
   const { k } = await searchParams;
   if (!looksLikeOrderRef(ref) || !k) notFound();
 
-  const { data: order } = await db()
+  const { data: order, error: orderError } = await db()
     .from("orders")
     .select("id, public_ref, status, package_size, amount_paise, paid_at, expires_at, access_token_hash, created_at")
     .eq("public_ref", ref)
     .maybeSingle();
+  if (orderError) throw new Error(`Order lookup failed: ${orderError.message}`);
   if (!order || !(await tokenMatches(k, order.access_token_hash))) notFound();
 
-  const { data: pigeonRows } = await db()
+  const { data: pigeonRows, error: pigeonError } = await db()
     .from("pigeons")
     .select("public_id, position, recipient_name, slot_local, scheduled_at_utc, status, failure_reason")
     .eq("order_id", order.id)
     .order("position");
+  if (pigeonError) throw new Error(`Pigeon lookup failed: ${pigeonError.message}`);
   const pigeons = (pigeonRows ?? []) as PigeonRow[];
   const deliveryDay = pigeons[0] ? formatIstDate(istDateOf(pigeons[0].scheduled_at_utc)) : "";
 
@@ -97,6 +100,8 @@ export default async function OrderPage({ params, searchParams }: Props) {
 
         {order.status === "PAID" && (
           <>
+            <Confetti onceKey={`order-${order.public_ref}`} />
+            <p className="booked__script">Hooray!</p>
             <h1>
               Your {order.package_size === 1 ? "pigeon is" : "pigeons are"} booked
             </h1>

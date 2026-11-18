@@ -12,7 +12,7 @@ export default function TermsPage() {
   return (
     <>
       <SiteHeader />
-      <main className="page">
+      <main className="page sheet">
         <h1>Terms of service</h1>
         <p className="lede">Last updated: {business.policiesUpdated ?? <Placeholder>date</Placeholder>}</p>
         <p>

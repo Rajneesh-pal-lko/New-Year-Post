@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Confetti } from "./Confetti";
+import { Fireworks } from "./Fireworks";
 import { Pigeon } from "./Pigeon";
 
 // The recipient's moment: a pigeon flies in, lands on the parapet, drops an
@@ -29,6 +31,8 @@ interface RevealStageProps {
 export function RevealStage({ recipientName, senderName, message, demo = false, onOpened, children }: RevealStageProps) {
   const [stage, setStage] = useState<Stage>(demo ? "idle" : "arriving");
   const [dropped, setDropped] = useState(false);
+  const [volley, setVolley] = useState(0);
+  const [opens, setOpens] = useState(0);
   const reduced = useRef(false);
   const letterRef = useRef<HTMLElement>(null);
 
@@ -46,6 +50,7 @@ export function RevealStage({ recipientName, senderName, message, demo = false, 
       return () => clearTimeout(t);
     }
     if (stage === "landed" && !dropped) {
+      setVolley((v) => v + 1); // a little celebration as the pigeon touches down
       const t = setTimeout(() => setDropped(true), reduced.current ? 0 : DROP_MS);
       return () => clearTimeout(t);
     }
@@ -67,6 +72,7 @@ export function RevealStage({ recipientName, senderName, message, demo = false, 
   function open() {
     if (stage !== "landed" || !dropped) return;
     setStage("opening");
+    setOpens((n) => n + 1);
     onOpened?.();
   }
 
@@ -77,11 +83,12 @@ export function RevealStage({ recipientName, senderName, message, demo = false, 
     <div className={`reveal reveal--${stage}`}>
       <div className="reveal__sky">
         <span className="reveal__moon" aria-hidden />
-        <span className="reveal__stars" aria-hidden />
+        <span className="stars" aria-hidden />
+        <Fireworks className="reveal__fireworks" auto={false} volley={volley} />
 
         {stage === "idle" && (
           <div className="reveal__start">
-            <button type="button" className="button button--light" onClick={start}>
+            <button type="button" className="button button--gold" onClick={start}>
               Watch a pigeon land
             </button>
           </div>
@@ -113,6 +120,8 @@ export function RevealStage({ recipientName, senderName, message, demo = false, 
         {stage === "arriving" && "A pigeon is flying in…"}
         {stage === "landed" && dropped && "Tap the envelope to open it."}
       </p>
+
+      {opens > 0 && <Confetti key={opens} />}
 
       {stage === "letter" && (
         <article className="letter" ref={letterRef} tabIndex={-1} aria-label={`Letter from ${senderName}`}>

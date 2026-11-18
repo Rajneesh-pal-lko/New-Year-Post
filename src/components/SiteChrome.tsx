@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { business } from "@/content/business";
 
-export function SiteHeader({ tone = "paper" }: { tone?: "paper" | "night" }) {
+export function SiteHeader() {
   return (
-    <header className={`site-header site-header--${tone}`}>
+    <header className="site-header">
       <Link href="/" className="brand" aria-label="Pigeon Post 2027 home">
         <span className="brand__name">Pigeon Post</span>
         <span className="brand__year">2027</span>
@@ -22,7 +22,10 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
-        <p className="site-footer__brand">Pigeon Post 2027</p>
+        <p className="site-footer__brand">
+          Pigeon Post <span>2027</span>
+        </p>
+        <p className="site-footer__tagline">A little bird. A special message.</p>
         <nav aria-label="Policies and contact" className="site-footer__links">
           <Link href="/about">About</Link>
           <Link href="/pricing">Pricing</Link>

@@ -1,14 +1,18 @@
 import Link from "next/link";
 import { formatRupees } from "@shared/money";
+import { SLOTS, slotToUtc } from "@shared/slots";
+import { Countdown } from "@/components/Countdown";
+import { FairyLights, MarigoldGarland } from "@/components/Decorations";
+import { Fireworks } from "@/components/Fireworks";
 import { Pigeon } from "@/components/Pigeon";
 import { PriceNote } from "@/components/PriceNote";
 import { PriceStamps } from "@/components/PriceStamps";
 import { RevealStage } from "@/components/RevealStage";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { now } from "@/lib/campaign";
+import { deliveryDate, now } from "@/lib/campaign";
 import { pricingView } from "@/lib/pricing";
 
-// Prices depend on the server clock, so this page is rendered per request.
+// Prices and the countdown depend on the server clock, so this page is rendered per request.
 export const dynamic = "force-dynamic";
 
 const EXAMPLE = {
@@ -33,11 +37,11 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
   },
   {
     q: "Can I write in Hindi or other languages?",
-    a: "Yes. Write in any language or script, with emoji if you like. Each message can be up to 500 characters.",
+    a: "Yes. Write in any language or script, with emoji if you like. Each letter can be up to 500 characters.",
   },
   {
-    q: "Can anyone else read my message?",
-    a: "Only the person you send it to. After reading, they can choose to release the pigeon into the public Pigeon Universe. That only happens if you allowed it at checkout, and every released message is reviewed before it appears. Email addresses are never shown.",
+    q: "Can anyone else read my letter?",
+    a: "Only the person you send it to. After reading, they can choose to release the pigeon into the public Pigeon Universe. That only happens if you allowed it at checkout, and every released letter is reviewed before it appears. Email addresses are never shown.",
   },
   {
     q: "How do I pay?",
@@ -50,47 +54,53 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
 ];
 
 export default function HomePage() {
-  const view = pricingView(now());
+  const at = now();
+  const view = pricingView(at);
   const one = view.packages.find((p) => p.size === 1)!;
+  const midnight = slotToUtc(deliveryDate(), "00:00");
 
   return (
     <>
       <section className="hero">
-        <SiteHeader tone="night" />
+        <FairyLights />
+        <SiteHeader />
+        <Fireworks className="hero__fireworks" every={2.4} />
         <div className="hero__inner">
-          <div className="hero__scene" aria-hidden>
-            <span className="hero__stars" />
-            <span className="hero__wire" />
-            <Pigeon pose="fly" className="hero__flyer" />
-            <Pigeon pose="perch" className="hero__percher" />
-          </div>
-          <div className="hero__copy">
-            <h1 className="hero__title">
-              A little bird.
-              <br />
-              A special message.
-            </h1>
-            <p className="hero__lead">Send a pigeon. Make someone&rsquo;s New Year memorable.</p>
-            <p className="hero__detail">
-              Write a personal note for each person you love. Your pigeons land in their inbox on 1 January 2027, at the time you
-              choose.
-            </p>
-            <div className="hero__actions">
-              <Link href="/send" className="button button--primary">
-                Send Your First Pigeon
-              </Link>
-              <Link href="/universe" className="button button--ghost-light">
-                Explore the Pigeon Universe
-              </Link>
-            </div>
-            <p className="hero__price">
-              {view.state === "BEFORE" && <>Sales open 1 December. One pigeon will cost {formatRupees(one.amountPaise)}.</>}
-              {view.state === "OPEN" && <>One pigeon costs {formatRupees(one.amountPaise)} right now.</>}
-              {view.state === "CLOSED" && <>Sales are closed. Pigeons are flying on 1 January.</>}
+          <div className="lockup">
+            <p className="lockup__script">Happy New Year</p>
+            <p className="lockup__year">
+              <span className="foil">2027</span>
+              <Pigeon pose="fly" className="lockup__flyer" />
+              <Pigeon pose="perch" className="lockup__percher" />
             </p>
           </div>
+
+          <h1 className="hero__title">
+            A little bird.
+            <br />
+            A special message.
+          </h1>
+          <p className="hero__lead">Send a pigeon. Make someone&rsquo;s New Year memorable.</p>
+          <p className="hero__detail">
+            Write a personal letter for each person you love. On 1 January 2027 a pigeon carries it to their inbox, at the
+            time you choose.
+          </p>
+          <div className="hero__actions">
+            <Link href="/send" className="button button--gold">
+              Send Your First Pigeon
+            </Link>
+            <Link href="/universe" className="button button--ghost">
+              Explore the Pigeon Universe
+            </Link>
+          </div>
+          <p className="hero__price">
+            {view.state === "BEFORE" && <>Sales open 1 December. One pigeon will cost {formatRupees(one.amountPaise)}.</>}
+            {view.state === "OPEN" && <>One pigeon costs {formatRupees(one.amountPaise)} right now.</>}
+            {view.state === "CLOSED" && <>Sales are closed. The pigeons are flying on 1 January.</>}
+          </p>
+          <Countdown serverNowMs={at.getTime()} targetMs={midnight.getTime()} label="midnight, 1 January 2027 (IST)" />
         </div>
-        <div className="airmail-edge" aria-hidden />
+        <MarigoldGarland />
       </section>
 
       <main>
@@ -102,7 +112,7 @@ export default function HomePage() {
             <ol className="steps">
               <li>
                 <h3>Pick a bundle</h3>
-                <p>1, 3, 5, 10 or 20 pigeons. Each pigeon carries one message to one person.</p>
+                <p>1, 3, 5, 10 or 20 pigeons. Each pigeon carries one letter to one person.</p>
               </li>
               <li>
                 <h3>Write each letter</h3>
@@ -120,15 +130,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section section--sheet" aria-labelledby="example">
+        <section className="section section--glow" aria-labelledby="example">
           <div className="section__inner section__inner--split">
             <div>
               <h2 id="example" className="section__title">
                 See a pigeon land
               </h2>
               <p className="section__text">
-                This is what your recipient sees when they open the email. The letter below is an example we wrote to show the
-                experience.
+                This is what your recipient sees when they open the email: a pigeon, an envelope, and a little celebration. The
+                letter is an example we wrote to show the experience.
               </p>
             </div>
             <div className="example-frame">
@@ -146,7 +156,7 @@ export default function HomePage() {
             <PriceNote view={view} />
             {view.state !== "CLOSED" && (
               <p>
-                <Link href="/send" className="button button--primary">
+                <Link href="/send" className="button button--gold">
                   Send Your First Pigeon
                 </Link>
               </p>
@@ -154,22 +164,35 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section section--sheet" aria-labelledby="when">
+        <section className="section section--glow" aria-labelledby="when">
           <div className="section__inner section__inner--split">
-            <h2 id="when" className="section__title">
-              When your pigeons land
-            </h2>
-            <div className="prose">
-              <p>
-                Every pigeon lands on <strong>1 January 2027</strong>, in Indian Standard Time. You choose a half-hour slot for
-                each one, from 12:00 AM (the stroke of midnight) to 11:30 PM, so a pigeon can wake someone up with your wishes
-                or arrive with their evening chai.
-              </p>
-              <p>
-                Until then, your letters stay sealed. Not even the pigeon pages you share on WhatsApp show the message. After
-                you pay, you get a private link to watch each pigeon go from scheduled, to sent, to delivered.
-              </p>
+            <div>
+              <h2 id="when" className="section__title">
+                When your pigeons land
+              </h2>
+              <div className="prose">
+                <p>
+                  Every pigeon lands on <strong>1 January 2027</strong>, in Indian Standard Time. Pick a half-hour for each one:
+                  the stroke of midnight, breakfast, or their evening chai.
+                </p>
+                <p>
+                  Until then your letters stay sealed. Not even the pigeon pages you share on WhatsApp show the message. After
+                  you pay, a private link lets you watch each pigeon go from scheduled, to sent, to delivered.
+                </p>
+              </div>
             </div>
+            <figure className="day-strip" aria-label="48 half-hour delivery slots on 1 January 2027">
+              <div className="day-strip__dots" aria-hidden>
+                {SLOTS.map((s) => (
+                  <span key={s} className={s === "00:00" ? "is-midnight" : s.endsWith(":00") ? "is-hour" : undefined} />
+                ))}
+              </div>
+              <figcaption>
+                <span>12:00 AM</span>
+                <span>48 half-hour slots on 1 January</span>
+                <span>11:30 PM</span>
+              </figcaption>
+            </figure>
           </div>
         </section>
 
@@ -189,31 +212,44 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section section--sheet" aria-labelledby="privacy">
+        <section className="section section--glow" aria-labelledby="privacy">
           <div className="section__inner section__inner--split">
             <h2 id="privacy" className="section__title">
               Your letters are private
             </h2>
-            <ul className="trust">
-              <li>
-                <strong>Payments by Razorpay.</strong> We never see or store card or UPI details.
-              </li>
-              <li>
-                <strong>No accounts.</strong> We ask only for names, email addresses and your messages.
-              </li>
-              <li>
-                <strong>Private links.</strong> Each letter opens only through its own long, unguessable link.
-              </li>
-              <li>
-                <strong>Nothing public without consent.</strong> A letter goes public only if you allow it, the recipient
-                chooses it, and we review it. Email addresses are never published.
-              </li>
-            </ul>
-            <p className="section__text">
-              Read the <Link href="/privacy">privacy policy</Link> or <Link href="/contact">contact us</Link>.
-            </p>
+            <div>
+              <ul className="trust">
+                <li>
+                  <strong>Payments by Razorpay.</strong> We never see or store card or UPI details.
+                </li>
+                <li>
+                  <strong>No accounts.</strong> We ask only for names, email addresses and your letters.
+                </li>
+                <li>
+                  <strong>Private links.</strong> Each letter opens only through its own long, unguessable link.
+                </li>
+                <li>
+                  <strong>Nothing public without consent.</strong> A letter goes public only if you allow it, the recipient
+                  chooses it, and we review it. Email addresses are never published.
+                </li>
+              </ul>
+              <p className="section__text">
+                Read the <Link href="/privacy">privacy policy</Link> or <Link href="/contact">contact us</Link>.
+              </p>
+            </div>
           </div>
         </section>
+
+        {view.state !== "CLOSED" && (
+          <section className="finale" aria-labelledby="finale">
+            <Pigeon pose="fly" className="finale__pigeon" />
+            <h2 id="finale">Who should hear from you first in 2027?</h2>
+            <p>Write them a letter tonight. A pigeon will deliver it on New Year&rsquo;s Day, at the time you choose.</p>
+            <Link href="/send" className="button button--gold">
+              Send Your First Pigeon
+            </Link>
+          </section>
+        )}
       </main>
       <SiteFooter />
     </>

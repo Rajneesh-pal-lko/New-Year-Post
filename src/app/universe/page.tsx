@@ -13,15 +13,16 @@ export const metadata: Metadata = {
 };
 
 export default async function UniversePage() {
-  const { count } = await db()
+  const { count, error } = await db()
     .from("universe_releases")
     .select("id", { count: "exact", head: true })
     .eq("moderation_status", "APPROVED");
+  if (error) throw new Error(`Universe count failed: ${error.message}`);
   const approved = count ?? 0;
 
   return (
     <div className="universe">
-      <SiteHeader tone="night" />
+      <SiteHeader />
       <main className="universe__inner">
         <h1 style={{ fontSize: "clamp(2.2rem, 8vw, 3.4rem)" }}>The Pigeon Universe</h1>
         <p className="universe__intro">

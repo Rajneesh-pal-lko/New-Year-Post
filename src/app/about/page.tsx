@@ -9,7 +9,7 @@ export default function AboutPage() {
   return (
     <>
       <SiteHeader />
-      <main className="page">
+      <main className="page sheet">
         <h1>About Pigeon Post 2027</h1>
         <p className="lede">A little bird. A special message.</p>
         <p>

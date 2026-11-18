@@ -14,7 +14,7 @@ export default function PricingPage() {
   return (
     <>
       <SiteHeader />
-      <main className="page" style={{ maxWidth: "56rem" }}>
+      <main className="page sheet" style={{ maxWidth: "56rem" }}>
         <h1>Pricing</h1>
         <p className="lede">
           You buy a bundle of pigeons and pay once. Each pigeon carries one letter to one person. Prices are in Indian rupees and

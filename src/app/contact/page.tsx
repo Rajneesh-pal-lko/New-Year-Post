@@ -8,7 +8,7 @@ export default function ContactPage() {
   return (
     <>
       <SiteHeader />
-      <main className="page">
+      <main className="page sheet">
         <h1>Contact us</h1>
         <p className="lede">We read every message. Include your order ID (it starts with PP-) or pigeon ID (PGN-) if you have one.</p>
         <dl className="summary-grid">

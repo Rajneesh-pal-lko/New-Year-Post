@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Fireworks } from "./Fireworks";
 import { Pigeon } from "./Pigeon";
 
 interface Caught {
@@ -54,18 +55,17 @@ export function UniverseSky({ approvedCount }: { approvedCount: number }) {
   return (
     <>
       <div className="universe__sky">
-        <span className="reveal__stars" aria-hidden />
+        <span className="stars" aria-hidden />
+        <Fireworks className="reveal__fireworks" every={3.4} />
         {approvedCount === 0 ? (
           <div className="universe__empty">
             <div>
-              <p style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem", color: "var(--sheet)" }}>
-                The sky is still empty.
-              </p>
+              <p className="universe__empty-title">The sky is still empty.</p>
               <p style={{ maxWidth: "26rem" }}>
                 Pigeons appear here after they land on 1 January 2027, if their recipients choose to release them.
               </p>
               <p>
-                <Link href="/send" className="button button--primary">
+                <Link href="/send" className="button button--gold">
                   Send Your First Pigeon
                 </Link>
               </p>

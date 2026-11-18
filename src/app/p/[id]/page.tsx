@@ -23,11 +23,12 @@ export default async function PigeonPage({ params }: { params: Promise<{ id: str
   const { id } = await params;
   if (!looksLikePigeonId(id)) notFound();
 
-  const { data } = await db()
+  const { data, error } = await db()
     .from("pigeons")
     .select("public_id, recipient_name, slot_local, scheduled_at_utc, status, orders!inner(sender_name, status)")
     .eq("public_id", id)
     .maybeSingle();
+  if (error) throw new Error(`Pigeon lookup failed: ${error.message}`);
   if (!data) notFound();
   const order = (Array.isArray(data.orders) ? data.orders[0] : data.orders) as { sender_name: string; status: string };
   if (order.status !== "PAID" || data.status === "PENDING_PAYMENT" || data.status === "CANCELLED") notFound();

@@ -12,7 +12,7 @@ export default function PrivacyPage() {
   return (
     <>
       <SiteHeader />
-      <main className="page">
+      <main className="page sheet">
         <h1>Privacy policy</h1>
         <p className="lede">Last updated: {business.policiesUpdated ?? <Placeholder>date</Placeholder>}</p>
         <h2>What we collect</h2>

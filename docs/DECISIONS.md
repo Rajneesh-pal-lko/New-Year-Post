@@ -119,16 +119,38 @@ The message is copied into `universe_releases`, so private data can be deleted l
 
 "Catch a pigeon" (Q13 default): tap a flying pigeon to get a random approved letter. No collection state.
 
-## 8. Design direction
+## 8. Design direction: "Midnight on the rooftop"
 
-The palette comes from the subject: airmail aerogramme blue paper, midnight ink for the New Year sky, India Post pillar-box red, and marigold (the pigeon's eye and the stars). The airmail stripe is the one recurring motif. Prices are drawn as perforated postage stamps whose denomination is the price.
+The owner asked for the site to feel like a celebration, not a business. The design draws on how New Year's Eve looks in India:
+- dark midnight skies against bursts of gold;
+- fireworks, the clock striking midnight, and confetti;
+- fairy lights, marigold garlands, and diyas or sparklers at midnight.
 
-Type:
-- **Young Serif** for headings: warm and slightly nostalgic.
-- **Mukta** for the interface: highly legible, with Latin and Devanagari.
-- **Kalam** for letters: handwritten, with Latin and Devanagari, so a Hindi letter looks hand-written too.
+**Palette:**
+- violet-midnight `#17123F`
+- champagne gold `#F3C969`, used as a foil gradient
+- sparkler rose `#FF7AA8`
+- marigold `#FF9F1C`
+- cream letter paper `#FFF7E8` with ink `#2B2160`
 
-Motion is spent in one place, the reveal (fly in → land → drop → tap → open). The hero has one short fly-in. `prefers-reduced-motion` skips straight to the landed pigeon. The design is mobile-first and was checked at 390 px.
+Anything people write on (forms, letters, tickets, policy pages) sits on cream paper with a rose-and-gold stripe along the top.
+
+**Type:**
+- **Bodoni Moda:** the Didone of New Year invitations. Its optical-size axis is kept low (11–16) for headings and prices, because high-contrast hairlines made "₹49" read as "₹ 19" on phones.
+- **Pinyon Script:** only for greetings ("Happy New Year", "Hooray!").
+- **Mukta:** UI text, with Devanagari.
+- **Kalam:** handwritten letters, with Devanagari.
+
+**Celebration moments:**
+- The hero has a string of fairy lights and a slow gold and rose fireworks canvas you can tap to launch a firework. A pigeon flies in and perches on a gold-foil "2027", and a marigold garland closes the hero.
+- A **real** countdown to midnight, 1 January 2027 IST. It starts from server time and counts towards the New Year, not a sale deadline, so it isn't fake urgency.
+- The reveal fires a volley when the pigeon lands and throws confetti when the letter opens.
+- The booked-order page throws confetti once.
+
+**Accessibility and performance:**
+- All motion stops under `prefers-reduced-motion`.
+- The fireworks loop pauses off-screen and in background tabs, and caps its particle count.
+- Everything is drawn in code: no images or animation libraries.
 
 ---
 
